@@ -1,0 +1,172 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "App users and their roles",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "fullName": { "type": "string" },
+        "phone": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "vip", "admin"] },
+        "isVip": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "role"]
+    },
+    "Prediction": {
+      "title": "Prediction",
+      "description": "Structured horse race predictions and VIP coupons",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "subTitle": { "type": "string" },
+        "slug": { "type": "string" },
+        "track": { "type": "string" },
+        "raceDate": { "type": "string" },
+        "publishAt": { "type": "string" },
+        "status": { "type": "string", "enum": ["draft", "published", "settled"] },
+        "visibility": { "type": "string", "enum": ["vip", "public", "sample"] },
+        "couponType": { "type": "string", "enum": ["economic", "standard", "aggressive"] },
+        "confidenceScore": { "type": "integer" },
+        "badge": { "type": "string" },
+        "shortNote": { "type": "string" },
+        "priceLabel": { "type": "string" },
+        "kuponBedeli": { "type": "string" },
+        "content": { "type": "string" },
+        "sampleContent": { "type": "string" },
+        "image": { "type": "string" },
+        "ayaklar": { 
+          "type": "array",
+          "description": "List of legs with raceNo, analysis, horses, banko, confidence"
+        },
+        "dailyBanko": { "type": "string" },
+        "dailySurpriz": { "type": "string" },
+        "dailyTemplate": { "type": "string" },
+        "resultStatus": { "type": "string", "enum": ["won", "lost", "partial", "pending"] },
+        "winnings": { "type": "string" },
+        "roi": { "type": "string" },
+        "commentsEnabled": { "type": "boolean" },
+        "authorName": { "type": "string" },
+        "views": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "slug", "track", "status", "visibility"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "User comments on predictions",
+      "type": "object",
+      "properties": {
+        "predictionId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["predictionId", "userId", "content"]
+    },
+    "Blog": {
+      "title": "Blog",
+      "description": "Blog posts",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "content": { "type": "string" },
+        "image": { "type": "string" },
+        "views": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "slug", "content"]
+    },
+    "SliderItem": {
+      "title": "Slider Item",
+      "description": "Homepage slider content",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "subTitle": { "type": "string" },
+        "ctaText": { "type": "string" },
+        "ctaLink": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "orderIndex": { "type": "integer" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["title", "imageUrl"]
+    },
+    "Bank": {
+      "title": "Bank Account",
+      "description": "Payment bank accounts",
+      "type": "object",
+      "properties": {
+        "bankName": { "type": "string" },
+        "iban": { "type": "string" },
+        "receiverName": { "type": "string" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["bankName", "iban"]
+    },
+    "Payment": {
+      "title": "Payment Notification",
+      "description": "User payment notifications",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "package": { "type": "string" },
+        "bank": { "type": "string" },
+        "reference": { "type": "string" },
+        "amount": { "type": "string" },
+        "note": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "package", "bank", "amount"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Global notifications and announcements sent by admin",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "badge": { "type": "string" },
+        "active": { "type": "boolean" },
+        "type": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "content", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/predictions/{predictionId}": {
+      "schema": "Prediction",
+      "description": "Horse race predictions"
+    },
+    "/blogs/{blogId}": {
+      "schema": "Blog",
+      "description": "Blog posts"
+    },
+    "/slider/{sliderId}": {
+      "schema": "SliderItem",
+      "description": "Slider content"
+    },
+    "/banks/{bankId}": {
+      "schema": "Bank",
+      "description": "Bank details"
+    },
+    "/payments/{paymentId}": {
+      "schema": "Payment",
+      "description": "Payment notifications"
+    },
+    "/announcements/{announcementId}": {
+      "schema": "Announcement",
+      "description": "Global announcements"
+    }
+  }
+}
